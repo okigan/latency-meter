@@ -7,7 +7,7 @@ import argparse
 endpoints = [
     {"provider": "Crunchyroll", "url": "https://prd.partner.crunchyroll.com/api/core/healthcheck"},
     {"provider": "Google", "url": "https://www.googleapis.com/oauth2/v3/certs"},
-    {"provider": "Okta (dev-123456)", "url": "https://dev-123456.okta.com/oauth2/default/v1/keys"},
+    {"provider": "Okta (dev-18545162)", "url": "https://dev-18545162.okta.com/oauth2/default/v1/keys"},
     {"provider": "Okta (Crunchyroll Partner Stg)", "url": "https://auth.stg.partner.crunchyroll.com/oauth2/v1/keys"},
     {"provider": "Okta (Crunchyroll Main)", "url": "https://crunchyroll.okta.com/oauth2/v1/keys"},
     {"provider": "Auth0", "url": "https://example.auth0.com/.well-known/jwks.json"},
@@ -29,14 +29,14 @@ def main(iterations, output_csv):
     # Open CSV file for writing the results
     with open(output_csv, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(["provider", "endpoint", "iteration", "latency_seconds"])
+        writer.writerow(["provider", "endpoint", "iteration", "latency_seconds", "style"])
         
         # Iterate over each endpoint and repeat the measurement
         for endpoint in endpoints:
             for i in range(1, iterations + 1):
                 try:
                     latency = measure_latency(session, endpoint["url"])
-                    writer.writerow([endpoint["provider"], endpoint["url"], i, latency])
+                    writer.writerow([endpoint["provider"], endpoint["url"], i, latency, "py-requests"])
                     print(f'{endpoint["provider"]} (iteration {i}): {latency:.4f} sec')
                 except Exception as e:
                     writer.writerow([endpoint["provider"], endpoint["url"], i, f"error: {e}"])
